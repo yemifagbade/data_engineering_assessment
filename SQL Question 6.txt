@@ -1,0 +1,13 @@
+
+--------Question 6-----------------
+
+
+SELECT [PersonID]
+	,[AttributedPayer]
+	,RiskDateTime
+	,[RiskScore]
+	,avg([RiskScore]) OVER (
+		PARTITION BY [PersonID]
+		,[AttributedPayer] ORDER BY RiskDateTime ASC ROWS BETWEEN 1 PRECEDING and  current row) AS MovingAverage2DayWindow
+FROM [PersonDatabase].[dbo].[Risk]
+ORDER BY [PersonID],[AttributedPayer],[RiskDateTime];
