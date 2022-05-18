@@ -1,0 +1,20 @@
+
+--------Question 2-----------------
+with cte as 
+
+(select personname,
+replace( replace(ltrim( substring
+  (personname,
+  charindex('(',personname)-1,charindex(')',personname)-charindex('(',personname)+2)),')',''), '(','') nickname, 
+  
+  ltrim(replace(replace(personname,substring
+  (personname,
+  charindex('(',personname)-1,charindex(')',personname)-charindex('(',personname)+2),''),')','')) fullname
+  from [PersonDatabase].[dbo].[Person] p )
+
+ select a.PersonName,b.nickname,a.fullname 
+ from cte a
+ left join cte b
+ on a.PersonName = b.PersonName
+ where a.PersonName like '%[A-Za-z]%'
+

@@ -1,0 +1,17 @@
+
+
+----------Question 1---------
+
+with cte as(
+SELECT p.[PersonID]
+      ,p.[PersonName]
+    	,[RiskDateTime]
+	    ,RiskLevel
+  FROM [PersonDatabase].[dbo].[Person] p
+  left join [PersonDatabase].[dbo].[Risk] r
+  on p.PersonID = r.PersonID
+)
+select personid patient_id, personname as patient_name,riskdatetime, risklevel from 
+(select rank() over(partition by personid order by [RiskDateTime] desc) rnk,* 
+from cte)xx
+where rnk = 1
